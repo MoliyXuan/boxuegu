@@ -4,6 +4,10 @@ requirejs.config({
 		jquery: 'lib/jquery/jquery',
 		jqueryCookie: 'lib/jquery-cookie/jquery.cookie',
 		bootstrap: 'lib/bootstrap/js/bootstrap',
+		nprogress: 'lib/nprogress/nprogress',
+		template: 'lib/artTemplate-3.0.1/template',
+
+		index: 'js/index',
 		userList: 'js/user/list',
 		userProfile: 'js/user/profile',
 		teacherAdd: 'js/teacher/add',
@@ -11,7 +15,7 @@ requirejs.config({
 		login: 'js/home/login',
 		repass: 'js/home/repass',
 		settings: 'js/home/settings',
-		courseAdd: 'js/couser/add',
+		courseAdd: 'js/course/add',
 		courseAddStep1: 'js/course/add_step1',
 		courseAddStep2: 'js/course/add_step2',
 		courseAddStep3: 'js/course/add_step3',
@@ -27,8 +31,11 @@ requirejs.config({
 		}
 	}
 });
-
-require(['jquery','bootstrap','common']);
+require(['nprogress'],function (nprogress) {
+	nprogress.start();
+	
+});
+require(['jquery','bootstrap']);
 
 (function (window) {
 	var pathname = window.location.pathname;
@@ -38,14 +45,17 @@ require(['jquery','bootstrap','common']);
 		var sessID = $.cookie('PHPSESSID');
 
 		//登录状态前端校验
-		// if (pathname == '/html/home/login.html' && sessID) {
-		// 	location.href = '/';
-		// }else if (pathname != '/html/home/login.html' && !sessID) {
-		// 	location.href = '/html/home/login.html';
-		// }
+		if (pathname == '/html/home/login.html' && sessID) {
+			location.href = '/';
+		}else if (pathname != '/html/home/login.html' && !sessID) {
+			location.href = '/html/home/login.html';
+		}
 
 		//如果页面没有跳转，就加载对应的js
 		switch (pathname) {
+			case '/':
+				require(['index']);
+				break;
 			case '/html/user/list.html':
 				require(['userList']);
 				break;

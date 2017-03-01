@@ -1,7 +1,19 @@
-define(['jquery','jqueryCookie'],function ($) {
+define(['jquery','jqueryCookie'],function ($,undefined) {
+	$(document).ajaxStart(function() {
+		$('.overlay').show();
+	}).ajaxStop(function() {
+		$('.overlay').hide();
+	});
+	;
+	
+
 	$('.navs a').on('click',function () {
 		$(this).next().slideToggle();
 	});
+
+	//侧边栏导航定位
+	var pathname = window.location.pathname;
+	$('.navs a').removeClass('active').filter('[href="'+ pathname +'"]').addClass('active').parents('ul').show();
 
 	$('#logout').on('click',function () {
 		$.post('/v6/logout',function (data) {
